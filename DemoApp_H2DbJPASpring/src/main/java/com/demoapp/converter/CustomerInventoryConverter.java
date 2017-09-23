@@ -22,7 +22,7 @@ public class CustomerInventoryConverter {
 	 * @return
 	 * @throws Exception
 	 */
-	public static CustomerDetailsDTO converEntityObjecttToDTOObject(Customer customer)throws Exception{
+	public static CustomerDetailsDTO converEntityObjecttToDTOObject(Customer customer){
 		
 		CustomerDetailsDTO customerDetailsDTO = new CustomerDetailsDTO();
 		

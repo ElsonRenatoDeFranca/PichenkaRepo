@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.demoapp.dao.CustomerInventoryDAO;
 import com.demoapp.entities.Customer;
+import com.demoapp.exception.CustomerFieldException;
 
 /**
  * 

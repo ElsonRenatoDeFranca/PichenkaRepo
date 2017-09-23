@@ -3,6 +3,7 @@
  */
 package com.demoapp.service;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasProperty;
@@ -18,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -125,10 +125,10 @@ public class CustomerInventoryServiceTest {
 
 		// Given
 		CustomerDetailsVO customerDetailsVO = new CustomerDetailsVO();
-		customerDetailsVO.setEmail("angelavieira@gmail.com");
-		customerDetailsVO.setFirstName("Angela");
-		customerDetailsVO.setLastName("Vieira");
-		customerDetailsVO.setPersonalId(9L);
+		customerDetailsVO.setEmail("antoniosolanolopez@gmail.com");
+		customerDetailsVO.setFirstName("Antonio");
+		customerDetailsVO.setLastName("Solano Lopez");
+		customerDetailsVO.setPersonalId(1L);
 
 		// When
 		customerService.addCustomer(customerDetailsVO);
@@ -143,10 +143,11 @@ public class CustomerInventoryServiceTest {
 		assertThat(argument, hasProperty("value", hasProperty("lastName", not(nullValue()))));
 		assertThat(argument, hasProperty("value", hasProperty("customerEmail", not(nullValue()))));
 
-		assertThat(argument, hasProperty("value", hasProperty("personalId", equalTo(9L))));
-		assertThat(argument, hasProperty("value", hasProperty("firstName", equalTo("Angela"))));
-		assertThat(argument, hasProperty("value", hasProperty("lastName", equalTo("Vieira"))));
-		assertThat(argument, hasProperty("value", hasProperty("customerEmail", equalTo("angelavieira@gmail.com"))));
+		assertThat(argument, hasProperty("value", hasProperty("personalId", equalTo(1L))));
+		assertThat(argument, hasProperty("value", hasProperty("firstName", equalTo("Antonio"))));
+		assertThat(argument, hasProperty("value", hasProperty("lastName", equalTo("Solano Lopez"))));
+		assertThat(argument,
+				hasProperty("value", hasProperty("customerEmail", equalTo("antoniosolanolopez@gmail.com"))));
 
 	}
 
@@ -155,10 +156,10 @@ public class CustomerInventoryServiceTest {
 
 		// Given
 		Customer customer = new Customer();
-		customer.setCustomerEmail("carlosxaviersilva@gmail.com");
-		customer.setFirstName("Carlos");
-		customer.setLastName("Xavier da Silva");
-		customer.setPersonalId(7L);
+		customer.setCustomerEmail("brucewayne@gmail.com");
+		customer.setFirstName("Bruce");
+		customer.setLastName("Wayne");
+		customer.setPersonalId(20L);
 
 		List<Customer> customers = new ArrayList<Customer>();
 		customers.add(customer);
@@ -176,26 +177,24 @@ public class CustomerInventoryServiceTest {
 		assertThat(customerDetailsList, everyItem(hasProperty("lastName", not(nullValue()))));
 		assertThat(customerDetailsList, everyItem(hasProperty("email", not(nullValue()))));
 
-		assertThat(customerDetailsList, everyItem(hasProperty("personalId", equalTo(7L))));
-		assertThat(customerDetailsList, everyItem(hasProperty("firstName", equalTo("Carlos"))));
-		assertThat(customerDetailsList, everyItem(hasProperty("lastName", equalTo("Xavier da Silva"))));
-		assertThat(customerDetailsList, everyItem(hasProperty("email", equalTo("carlosxaviersilva@gmail.com"))));
+		assertThat(customerDetailsList, everyItem(hasProperty("personalId", equalTo(20L))));
+		assertThat(customerDetailsList, everyItem(hasProperty("firstName", equalTo("Bruce"))));
+		assertThat(customerDetailsList, everyItem(hasProperty("lastName", equalTo("Wayne"))));
+		assertThat(customerDetailsList, everyItem(hasProperty("email", equalTo("brucewayne@gmail.com"))));
 	}
 
 	@Test
 	public void searchCustomerByFirstName_ShouldReturnCustomer_WhenThereIsACustomerThatMatchesTheCriterion()
 			throws Exception {
-		// Given
 		Customer customer = new Customer();
-		customer.setCustomerEmail("manuelsilva@gmail.com");
-		customer.setFirstName("Manuel");
-		customer.setLastName("Santos Neves");
+		customer.setCustomerEmail("antoniosolanolopez@gmail.com");
+		customer.setFirstName("Antonio");
+		customer.setLastName("Solano Lopez");
 		customer.setPersonalId(1L);
 
 		// When
 		when(customerInventoryDAO.searchCustomerByFirstName(Mockito.anyString())).thenReturn(customer);
-
-		CustomerDetailsDTO customerDetailsDTO = customerService.searchCustomerByFirstName(Mockito.anyString());
+		CustomerDetailsDTO customerDetailsDTO = customerService.searchCustomerByFirstName(customer.getFirstName());
 
 		// Then
 		assertThat(customerDetailsDTO, not(nullValue()));
@@ -204,26 +203,24 @@ public class CustomerInventoryServiceTest {
 		assertThat(customerDetailsDTO, hasProperty("lastName", not(nullValue())));
 		assertThat(customerDetailsDTO, hasProperty("email", not(nullValue())));
 		assertThat(customerDetailsDTO, hasProperty("personalId", equalTo(1L)));
-		assertThat(customerDetailsDTO, hasProperty("firstName", equalTo("Manuel")));
-		assertThat(customerDetailsDTO, hasProperty("lastName", equalTo("Santos Neves")));
-		assertThat(customerDetailsDTO, hasProperty("email", equalTo("manuelsilva@gmail.com")));
+		assertThat(customerDetailsDTO, hasProperty("firstName", equalTo("Antonio")));
+		assertThat(customerDetailsDTO, hasProperty("lastName", equalTo("Solano Lopez")));
+		assertThat(customerDetailsDTO, hasProperty("email", equalTo("antoniosolanolopez@gmail.com")));
 
 	}
 
 	@Test
-	public void searchCustomerByLastName_ShouldReturnCustomer_WhenThereIsACustomerThatMatchesTheCriterion()
-			throws Exception {
-		// Given
+	public void searchCustomerByLastName_ShouldReturnCustomer_WhenLastNameIsNotNull() throws Exception {
 		Customer customer = new Customer();
-		customer.setCustomerEmail("pedroalvarescabral@gmail.com");
-		customer.setFirstName("Pedro");
-		customer.setLastName("Alvares Cabral");
-		customer.setPersonalId(3L);
+		customer.setCustomerEmail("antoniosolanolopez@gmail.com");
+		customer.setFirstName("Antonio");
+		customer.setLastName("Solano Lopez");
+		customer.setPersonalId(1L);
 
 		// When
 		when(customerInventoryDAO.searchCustomerByLastName(Mockito.anyString())).thenReturn(customer);
 
-		CustomerDetailsDTO customerDetailsDTO = customerService.searchCustomerByLastName(Mockito.anyString());
+		CustomerDetailsDTO customerDetailsDTO = customerService.searchCustomerByLastName(customer.getLastName());
 
 		// Then
 		assertThat(customerDetailsDTO, not(nullValue()));
@@ -231,10 +228,10 @@ public class CustomerInventoryServiceTest {
 		assertThat(customerDetailsDTO, hasProperty("firstName", not(nullValue())));
 		assertThat(customerDetailsDTO, hasProperty("lastName", not(nullValue())));
 		assertThat(customerDetailsDTO, hasProperty("email", not(nullValue())));
-		assertThat(customerDetailsDTO, hasProperty("personalId", equalTo(3L)));
-		assertThat(customerDetailsDTO, hasProperty("firstName", equalTo("Pedro")));
-		assertThat(customerDetailsDTO, hasProperty("lastName", equalTo("Alvares Cabral")));
-		assertThat(customerDetailsDTO, hasProperty("email", equalTo("pedroalvarescabral@gmail.com")));
+		assertThat(customerDetailsDTO, hasProperty("personalId", equalTo(1L)));
+		assertThat(customerDetailsDTO, hasProperty("firstName", equalTo("Antonio")));
+		assertThat(customerDetailsDTO, hasProperty("lastName", equalTo("Solano Lopez")));
+		assertThat(customerDetailsDTO, hasProperty("email", equalTo("antoniosolanolopez@gmail.com")));
 
 	}
 
@@ -265,26 +262,68 @@ public class CustomerInventoryServiceTest {
 
 	}
 
-	@Ignore
-	@SuppressWarnings("unchecked")
-	@Test(expected = CustomerFieldException.class)
-	public void searchCustomerByFirstName_ShouldNotReturnCustomer_WhenNullIsPassedAsSearchParameter() throws Exception {
+	@Test
+	public void searchCustomerByFirstName_ShouldNotReturnCustomer_WhenFirstNameIsNull() throws Exception {
+		expectedException.expect(CustomerFieldException.class);
+		expectedException.expectMessage(is(CustomerFieldExceptionMessage.FIRST_NAME_NOT_FOUND_MESSAGE));
+		expectedException.expect(hasProperty("errCode"));
+		expectedException.expect(hasProperty("errCode", is(CustomerFieldExceptionMessage.FIRST_NAME_NOT_FOUND_CODE)));
+		
+		customerService.searchCustomerByFirstName(null);
+		verify(customerInventoryDAO, Mockito.atLeastOnce()).searchCustomerByFirstName(null);
+	}
 
+	@Test
+	public void searchCustomerById_ShouldNotReturnCustomer_WhenCustomerIdIsNull() throws Exception {
+		
+		expectedException.expect(CustomerFieldException.class);
+		expectedException.expectMessage(is(CustomerFieldExceptionMessage.CUSTOMER_ID_NOT_FOUND_MESSAGE));
+		expectedException.expect(hasProperty("errCode"));
+		expectedException.expect(hasProperty("errCode", is(CustomerFieldExceptionMessage.CUSTOMER_ID_NOT_FOUND_CODE)));
+
+		customerService.searchCustomerById(null);
+		verify(customerInventoryDAO, Mockito.atLeastOnce()).searchCustomerById(null);
+	}
+	
+	@Test
+	public void searchCustomerByLastName_ShouldNotReturnCustomer_WhenCustomerLastIsNull() throws Exception {
+		
+		expectedException.expect(CustomerFieldException.class);
+		expectedException.expectMessage(is(CustomerFieldExceptionMessage.LAST_NAME_NOT_FOUND_MESSAGE));
+		expectedException.expect(hasProperty("errCode"));
+		expectedException.expect(hasProperty("errCode", is(CustomerFieldExceptionMessage.LAST_NAME_NOT_FOUND_CODE)));
+
+		customerService.searchCustomerByLastName(null);
+		verify(customerInventoryDAO, Mockito.atLeastOnce()).searchCustomerByLastName(null);
+	}
+	
+	@Test
+	public void addCustomer_ShouldReturnCustomerAlreadyExistsException_WhenCustomerIsAlreadyInDatabase() throws Exception {
+		
+		// Given
+		CustomerDetailsVO customerDetailsVO = new CustomerDetailsVO();
+		customerDetailsVO.setEmail("antoniosolanolopez@gmail.com");
+		customerDetailsVO.setFirstName("Antonio");
+		customerDetailsVO.setLastName("Solano Lopez");
+		customerDetailsVO.setPersonalId(1L);
+		
 		Customer customer = new Customer();
-		customer.setCustomerEmail("manuelsilva@gmail.com");
-		customer.setFirstName("Manuel");
-		customer.setLastName("Santos Neves");
+		customer.setCustomerEmail("antoniosolanolopez@gmail.com");
+		customer.setFirstName("Antonio");
+		customer.setLastName("Solano Lopez");
 		customer.setPersonalId(1L);
 
-		// When
-		when(customerInventoryDAO.searchCustomerByFirstName(null)).thenThrow(CustomerFieldException.class);
-		expectedException.expect(Exception.class);
-		expectedException.expectMessage(CustomerFieldExceptionMessage.FIRST_NAME_NOT_FOUND);
+		expectedException.expect(CustomerFieldException.class);
+		expectedException.expectMessage(is(CustomerFieldExceptionMessage.CUSTOMER_ALREADY_EXISTS_MESSAGE));
+		expectedException.expect(hasProperty("errCode"));
+		expectedException.expect(hasProperty("errCode", is(CustomerFieldExceptionMessage.CUSTOMER_ALREADY_EXISTS_CODE)));
+		//When
+		when(customerInventoryDAO.searchCustomerById(Mockito.eq(customerDetailsVO.getPersonalId()))).thenReturn(customer);
 
-		customerService.setCustomerInventoryDAO(customerInventoryDAO);
-
-		CustomerDetailsDTO customerDetailsDTO = customerService.searchCustomerByFirstName(null);
-
+		customerService.addCustomer(customerDetailsVO);
+		verify(customerInventoryDAO, Mockito.atLeastOnce()).addCustomer(customer);
 	}
+
+
 
 }

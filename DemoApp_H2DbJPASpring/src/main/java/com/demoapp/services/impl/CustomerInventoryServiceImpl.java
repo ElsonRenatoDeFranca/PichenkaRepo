@@ -2,6 +2,8 @@ package com.demoapp.services.impl;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,19 +30,22 @@ public class CustomerInventoryServiceImpl implements CustomerInventoryService {
 	@Autowired
 	private CustomerInventoryDAO customerInventoryDAO;
 
+
+	static final Logger LOG = LogManager.getLogger("Log");
+	
 	@Override
 	public void addCustomer(CustomerDetailsVO customerDetailsVO) throws Exception {
 
 		if (customerDetailsVO != null) {
+			
+			Customer existingCustomer = customerInventoryDAO.searchCustomerById(customerDetailsVO.getPersonalId());
 
-			CustomerDetailsDTO customerDetailsDTO = CustomerInventoryConverter
-					.converEntityObjecttToDTOObject(customerInventoryDAO.searchCustomerById(customerDetailsVO.getPersonalId()));
-
-			if (customerDetailsDTO == null || customerDetailsDTO.getPersonalId()==null) {
+			if (existingCustomer == null || existingCustomer.getPersonalId() == null) {
 				Customer customer = CustomerInventoryConverter.convertVOObjecttoEntityObject(customerDetailsVO);
 				this.customerInventoryDAO.addCustomer(customer);
 			} else {
-				System.out.println("Customer already exists in the database");
+				throw new CustomerFieldException(CustomerFieldExceptionMessage.CUSTOMER_ALREADY_EXISTS_CODE,
+						CustomerFieldExceptionMessage.CUSTOMER_ALREADY_EXISTS_MESSAGE);
 			}
 
 		}
@@ -72,9 +77,11 @@ public class CustomerInventoryServiceImpl implements CustomerInventoryService {
 		CustomerDetailsDTO customerDetailsDTO = null;
 
 		if (personalId != null) {
-			customerDetailsDTO = CustomerInventoryConverter
-					.converEntityObjecttToDTOObject(customerInventoryDAO.searchCustomerById(personalId));
-
+			Customer customer = customerInventoryDAO.searchCustomerById(personalId);
+			customerDetailsDTO = CustomerInventoryConverter.converEntityObjecttToDTOObject(customer);
+		} else {
+			throw new CustomerFieldException(CustomerFieldExceptionMessage.CUSTOMER_ID_NOT_FOUND_CODE,
+					CustomerFieldExceptionMessage.CUSTOMER_ID_NOT_FOUND_MESSAGE);
 		}
 
 		return customerDetailsDTO;
@@ -90,14 +97,15 @@ public class CustomerInventoryServiceImpl implements CustomerInventoryService {
 	public CustomerDetailsDTO searchCustomerByFirstName(String firstName) throws Exception {
 
 		CustomerDetailsDTO customerDetailsDTO = null;
+		
+		if(firstName != null){
+			Customer customer = customerInventoryDAO.searchCustomerByFirstName(firstName);
+			customerDetailsDTO = CustomerInventoryConverter.converEntityObjecttToDTOObject(customer);
 
-		if (firstName != null) {
-			customerDetailsDTO = CustomerInventoryConverter
-					.converEntityObjecttToDTOObject(customerInventoryDAO.searchCustomerByFirstName(firstName));
 		}else{
-			throw new CustomerFieldException(CustomerFieldExceptionMessage.FIRST_NAME_NOT_FOUND);
+			throw new CustomerFieldException(CustomerFieldExceptionMessage.FIRST_NAME_NOT_FOUND_CODE,
+					CustomerFieldExceptionMessage.FIRST_NAME_NOT_FOUND_MESSAGE);
 		}
-
 		return customerDetailsDTO;
 	}
 
@@ -112,13 +120,13 @@ public class CustomerInventoryServiceImpl implements CustomerInventoryService {
 
 		CustomerDetailsDTO customerDetailsDTO = null;
 
-		if (lastName != null) {	
-			customerDetailsDTO = CustomerInventoryConverter
-					.converEntityObjecttToDTOObject(customerInventoryDAO.searchCustomerByLastName(lastName));
+		if (lastName != null) {
+			Customer customer = customerInventoryDAO.searchCustomerByLastName(lastName);
+			customerDetailsDTO = CustomerInventoryConverter.converEntityObjecttToDTOObject(customer);
 		}else{
-			throw new CustomerFieldException(CustomerFieldExceptionMessage.LAST_NAME_NOT_FOUND);
+			throw new CustomerFieldException(CustomerFieldExceptionMessage.LAST_NAME_NOT_FOUND_CODE,
+					CustomerFieldExceptionMessage.LAST_NAME_NOT_FOUND_MESSAGE);
 		}
-
 
 		return customerDetailsDTO;
 	}
@@ -146,14 +154,14 @@ public class CustomerInventoryServiceImpl implements CustomerInventoryService {
 
 		if (customerDetailsVO != null) {
 
-			CustomerDetailsDTO customerDetailsDTO = CustomerInventoryConverter
-					.converEntityObjecttToDTOObject(customerInventoryDAO.searchCustomerById(customerDetailsVO.getPersonalId()));
+			CustomerDetailsDTO customerDetailsDTO = CustomerInventoryConverter.converEntityObjecttToDTOObject(
+					customerInventoryDAO.searchCustomerById(customerDetailsVO.getPersonalId()));
 
 			if (customerDetailsDTO != null) {
 				Customer customer = CustomerInventoryConverter.convertVOObjecttoEntityObject(customerDetailsVO);
 				this.customerInventoryDAO.deleteCustomer(customer);
 			} else {
-				throw new CustomerFieldException(CustomerFieldExceptionMessage.CUSTOMER_DOES_NOT_EXIST_IN_DATABASE);
+				throw new CustomerFieldException(3, CustomerFieldExceptionMessage.CUSTOMER_DOES_NOT_EXIST_IN_DATABASE);
 			}
 		}
 
