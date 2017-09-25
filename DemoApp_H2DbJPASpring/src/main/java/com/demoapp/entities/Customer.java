@@ -1,11 +1,14 @@
 
 package com.demoapp.entities;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
@@ -30,6 +33,9 @@ public class Customer {
 		
 	@Column(name="CUST_EMAIL")
 	private String customerEmail;
+	
+	@OneToMany
+	private List<Car> cars;
 
 	/**
 	 * @return the id
