@@ -1,16 +1,23 @@
 
 package com.demoapp.entities;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
 @Entity
-@Table(name="CUSTOMER")
+@Table(name="DEMO_CUSTOMERS")
 public class Customer {
 
 
@@ -30,7 +37,18 @@ public class Customer {
 		
 	@Column(name="CUST_EMAIL")
 	private String customerEmail;
-
+	
+	@Column(name="CUST_PHONE")
+	private String telephoneNumber;
+	
+	@Embedded
+	private Address address;
+	
+	//@OneToMany//(mappedBy="customer")
+	//@JoinColumn(name="customerId")
+	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,mappedBy="customer")
+	private List<Order> orders;
+	
 	/**
 	 * @return the id
 	 */
@@ -113,6 +131,7 @@ public class Customer {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
 		result = prime * result + ((personalId == null) ? 0 : personalId.hashCode());
+		result = prime * result + ((telephoneNumber == null) ? 0 : telephoneNumber.hashCode());
 		return result;
 	}
 
@@ -153,7 +172,26 @@ public class Customer {
 				return false;
 		} else if (!personalId.equals(other.personalId))
 			return false;
+		if (telephoneNumber == null) {
+			if (other.telephoneNumber != null)
+				return false;
+		} else if (!telephoneNumber.equals(other.telephoneNumber))
+			return false;
 		return true;
+	}
+
+	/**
+	 * @return the telephoneNumber
+	 */
+	public String getTelephoneNumber() {
+		return telephoneNumber;
+	}
+
+	/**
+	 * @param telephoneNumber the telephoneNumber to set
+	 */
+	public void setTelephoneNumber(String telephoneNumber) {
+		this.telephoneNumber = telephoneNumber;
 	}
 
 	/* (non-Javadoc)
@@ -162,7 +200,7 @@ public class Customer {
 	@Override
 	public String toString() {
 		return "Customer [id=" + id + ", personalId=" + personalId + ", firstName=" + firstName + ", lastName="
-				+ lastName + ", customerEmail=" + customerEmail + "]";
+				+ lastName + ", customerEmail=" + customerEmail + ", telephoneNumber=" + telephoneNumber + "]";
 	}
 	
 	
