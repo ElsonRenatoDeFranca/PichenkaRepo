@@ -11,7 +11,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -44,11 +43,8 @@ public class Customer {
 	@Embedded
 	private Address address;
 	
-	//@OneToMany//(mappedBy="customer")
-	//@JoinColumn(name="customerId")
-	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,mappedBy="customer")
 	private List<Order> orders;
-	
+
 	/**
 	 * @return the id
 	 */
@@ -119,67 +115,6 @@ public class Customer {
 		this.customerEmail = customerEmail;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((customerEmail == null) ? 0 : customerEmail.hashCode());
-		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-		result = prime * result + ((personalId == null) ? 0 : personalId.hashCode());
-		result = prime * result + ((telephoneNumber == null) ? 0 : telephoneNumber.hashCode());
-		return result;
-	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Customer other = (Customer) obj;
-		if (customerEmail == null) {
-			if (other.customerEmail != null)
-				return false;
-		} else if (!customerEmail.equals(other.customerEmail))
-			return false;
-		if (firstName == null) {
-			if (other.firstName != null)
-				return false;
-		} else if (!firstName.equals(other.firstName))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (lastName == null) {
-			if (other.lastName != null)
-				return false;
-		} else if (!lastName.equals(other.lastName))
-			return false;
-		if (personalId == null) {
-			if (other.personalId != null)
-				return false;
-		} else if (!personalId.equals(other.personalId))
-			return false;
-		if (telephoneNumber == null) {
-			if (other.telephoneNumber != null)
-				return false;
-		} else if (!telephoneNumber.equals(other.telephoneNumber))
-			return false;
-		return true;
-	}
-
 	/**
 	 * @return the telephoneNumber
 	 */
@@ -194,15 +129,35 @@ public class Customer {
 		this.telephoneNumber = telephoneNumber;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
+	/**
+	 * @return the address
 	 */
-	@Override
-	public String toString() {
-		return "Customer [id=" + id + ", personalId=" + personalId + ", firstName=" + firstName + ", lastName="
-				+ lastName + ", customerEmail=" + customerEmail + ", telephoneNumber=" + telephoneNumber + "]";
+	public Address getAddress() {
+		return address;
+	}
+
+	/**
+	 * @param address the address to set
+	 */
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	/**
+	 * @return the orders
+	 */
+	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,mappedBy="customer")
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	/**
+	 * @param orders the orders to set
+	 */
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
 	}
 	
-	
+		
 	
 }

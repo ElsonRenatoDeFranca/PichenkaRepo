@@ -4,15 +4,14 @@
 package com.demoapp.entities;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
@@ -42,12 +41,9 @@ public class Product {
 	
 	@Column(name="LIST_PRICE")
 	private BigDecimal price;
-
-	@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="ORDER_ID")
-	@Column(name="ORDER_ID")
-	private Order orderId;
 	
+	private List<Order> orders;
+
 	/**
 	 * @return the id
 	 */
@@ -132,6 +128,21 @@ public class Product {
 		this.price = price;
 	}
 
+	/**
+	 * @return the orders
+	 */
+	@ManyToMany(mappedBy="orders")
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	/**
+	 * @param orders the orders to set
+	 */
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -143,6 +154,7 @@ public class Product {
 		result = prime * result + ((category == null) ? 0 : category.hashCode());
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((orders == null) ? 0 : orders.hashCode());
 		result = prime * result + ((price == null) ? 0 : price.hashCode());
 		result = prime * result + ((productName == null) ? 0 : productName.hashCode());
 		return result;
@@ -180,6 +192,11 @@ public class Product {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
+		if (orders == null) {
+			if (other.orders != null)
+				return false;
+		} else if (!orders.equals(other.orders))
+			return false;
 		if (price == null) {
 			if (other.price != null)
 				return false;
@@ -199,7 +216,10 @@ public class Product {
 	@Override
 	public String toString() {
 		return "Product [id=" + id + ", productName=" + productName + ", description=" + description + ", category="
-				+ category + ", availability=" + availability + ", price=" + price + "]";
+				+ category + ", availability=" + availability + ", price=" + price + ", orders=" + orders + "]";
 	}
+	
+	
+
 	
 }

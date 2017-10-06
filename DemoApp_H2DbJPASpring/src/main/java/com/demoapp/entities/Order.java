@@ -6,7 +6,6 @@ package com.demoapp.entities;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,8 +13,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -37,16 +37,11 @@ public class Order {
 	
 	@Column(name="ORDER_TIMESTAMP")
 	private Date timestamp;
-
 	
-	@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="COMPANY_ID")
-	@Column(name="CUSTOMER_TIMESTAMP")
 	private Customer customerId;
 	
-	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,mappedBy="product")
 	private List<Product> products;
-	
+
 	/**
 	 * @return the id
 	 */
@@ -88,6 +83,47 @@ public class Order {
 	public void setTimestamp(Date timestamp) {
 		this.timestamp = timestamp;
 	}
+
+	/**
+	 * @return the customerId
+	 */
+	@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="COMPANY_ID")
+	@Column(name="CUSTOMER_TIMESTAMP")
+	public Customer getCustomerId() {
+		return customerId;
+	}
+
+	/**
+	 * @param customerId the customerId to set
+	 */
+	public void setCustomerId(Customer customerId) {
+		this.customerId = customerId;
+	}
+
+	/**
+	 * @return the products
+	 */
+	@ManyToMany
+    @JoinTable(name="DEMO_ORDER_ITEMS",
+        joinColumns=
+            @JoinColumn(name="ORDER_ID", referencedColumnName="ID"),
+        inverseJoinColumns=
+            @JoinColumn(name="PRODUCT_ID", referencedColumnName="ID")
+        )
+	public List<Product> getProducts() {
+		return products;
+	}
+
+	/**
+	 * @param products the products to set
+	 */
+	public void setProducts(List<Product> products) {
+		this.products = products;
+	}
+	
+
+	
 	
 	
 }

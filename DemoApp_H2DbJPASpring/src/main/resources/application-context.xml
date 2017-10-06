@@ -39,6 +39,8 @@
 		<property name="annotatedClasses">
 			<list>
 				<value>com.demoapp.entities.Customer</value>
+				<value>com.demoapp.entities.Order</value>
+				<value>com.demoapp.entities.Product</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
