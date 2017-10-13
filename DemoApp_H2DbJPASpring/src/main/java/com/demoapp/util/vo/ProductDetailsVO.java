@@ -1,52 +1,57 @@
 /**
  * 
  */
-package com.demoapp.entities;
+package com.demoapp.util.vo;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
 
 /**
  * @author userpc
  *
  */
-@Entity
-@Table(name="DEMO_PRODUCT")
-public class Product {
+public class ProductDetailsVO implements Serializable{
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="PRODUCT_ID")
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6335114840987120897L;
+
+	/**
+	 * 
+	 */
 	private Long id;
 	
-	@Column(name="PRODUCT_NAME")
+	/**
+	 * 
+	 */
 	private String name;
 	
-	@Column(name="PRODUCT_DESCRIPTION")
+	/**
+	 * 
+	 */
 	private String description;
 	
-	@Column(name="CATEGORY")
+	/**
+	 * 
+	 */
 	private String category;
 	
-	@Column(name="PRODUCT_AVAIL")
+	/**
+	 * 
+	 */
 	private String availability;
 	
-	@Column(name="LIST_PRICE")
+	/**
+	 * 
+	 */
 	private BigDecimal price;
 	
-	@ManyToMany
-	@JoinTable(name = "DEMO_ORDER_ITEMS", joinColumns = { @JoinColumn(name ="PRODUCT_ID") }, inverseJoinColumns = { @JoinColumn(name = "ORDER_ID") }) 
-	private List<Order> orders;
+	/**
+	 * 
+	 */
+	private List<OrderDetailsVO> orders;
 
 	/**
 	 * @return the id
@@ -63,16 +68,16 @@ public class Product {
 	}
 
 	/**
-	 * @return the productName
+	 * @return the name
 	 */
 	public String getName() {
 		return name;
 	}
 
 	/**
-	 * @param productName the productName to set
+	 * @param name the name to set
 	 */
-	public void setProductName(String name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 
@@ -135,14 +140,14 @@ public class Product {
 	/**
 	 * @return the orders
 	 */
-	public List<Order> getOrders() {
+	public List<OrderDetailsVO> getOrders() {
 		return orders;
 	}
 
 	/**
 	 * @param orders the orders to set
 	 */
-	public void setOrders(List<Order> orders) {
+	public void setOrders(List<OrderDetailsVO> orders) {
 		this.orders = orders;
 	}
 
@@ -157,9 +162,9 @@ public class Product {
 		result = prime * result + ((category == null) ? 0 : category.hashCode());
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((orders == null) ? 0 : orders.hashCode());
 		result = prime * result + ((price == null) ? 0 : price.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
 
@@ -174,7 +179,7 @@ public class Product {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Product other = (Product) obj;
+		ProductDetailsVO other = (ProductDetailsVO) obj;
 		if (availability == null) {
 			if (other.availability != null)
 				return false;
@@ -195,6 +200,11 @@ public class Product {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
 		if (orders == null) {
 			if (other.orders != null)
 				return false;
@@ -205,11 +215,6 @@ public class Product {
 				return false;
 		} else if (!price.equals(other.price))
 			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
 		return true;
 	}
 
@@ -218,11 +223,8 @@ public class Product {
 	 */
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", productName=" + name + ", description=" + description + ", category="
+		return "ProductDetailsVO [id=" + id + ", name=" + name + ", description=" + description + ", category="
 				+ category + ", availability=" + availability + ", price=" + price + ", orders=" + orders + "]";
 	}
-	
-	
-
 	
 }

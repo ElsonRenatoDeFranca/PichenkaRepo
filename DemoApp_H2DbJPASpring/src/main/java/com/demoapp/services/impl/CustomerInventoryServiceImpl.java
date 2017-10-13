@@ -31,10 +31,12 @@ public class CustomerInventoryServiceImpl implements CustomerInventoryService {
 	private CustomerInventoryDAO customerInventoryDAO;
 
 
-	static final Logger LOG = LogManager.getLogger("Log");
+	private static final Logger LOG = LogManager.getLogger("Log");
 	
 	@Override
 	public void addCustomer(CustomerDetailsVO customerDetailsVO) throws Exception {
+		
+	LOG.debug(CustomerInventoryServiceImpl.class+",");
 
 		if (customerDetailsVO != null) {
 			

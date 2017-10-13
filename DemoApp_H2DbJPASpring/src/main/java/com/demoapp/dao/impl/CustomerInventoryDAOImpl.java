@@ -4,14 +4,19 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.demoapp.dao.CustomerInventoryDAO;
 import com.demoapp.entities.Customer;
-import com.demoapp.exception.CustomerFieldException;
+import com.demoapp.exception.CustomerFieldExceptionMessage;
+
+
 
 /**
  * 
@@ -29,6 +34,9 @@ public class CustomerInventoryDAOImpl implements CustomerInventoryDAO {
 	 * 
 	 */
 	private EntityManager entityManager;
+	
+
+	private static final Logger LOG = LogManager.getLogger("Log");
 	
 	
 	 /**
@@ -92,7 +100,13 @@ public class CustomerInventoryDAOImpl implements CustomerInventoryDAO {
 	@Override
 	public Customer searchCustomerByFirstName(String firstName) throws Exception {
 		Query query = this.entityManager.createQuery("SELECT c FROM Customer c WHERE c.firstName = "+"'"+firstName+"'");
-		Customer customer = (Customer) query.getSingleResult();
+		Customer customer = null;
+		try {
+			customer = (Customer) query.getSingleResult();
+		} catch (NoResultException e) {
+			LOG.debug(CustomerFieldExceptionMessage.CUSTOMER_ID_NOT_FOUND_MESSAGE+firstName);
+		}
+		
 		return customer;
 
 	}
