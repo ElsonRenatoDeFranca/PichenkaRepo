@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bindings version="2.1" xmlns="http://java.sun.com/xml/ns/jaxb">
+  <!--
+
+Este arquivo foi gerado pela Arquitetura JavaTM para Implementação de Referência (JAXB) de Bind XML, v2.2.7 
+Consulte <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
+Todas as modificações neste arquivo serão perdidas após a recompilação do esquema de origem. 
+Gerado em: 2018.01.09 às 07:18:43 AM BRST 
+
+  -->
+  <bindings scd="x-schema::tns" xmlns:tns="http://www.bharatthippireddy.com/Patient">
+    <schemaBindings map="false">
+      <package name="com.bharatthippireddy.patient"/>
+    </schemaBindings>
+    <bindings scd="~tns:Patient">
+      <class ref="com.bharatthippireddy.patient.Patient"/>
+    </bindings>
+    <bindings scd="~tns:PaymentType">
+      <class ref="com.bharatthippireddy.patient.PaymentType"/>
+    </bindings>
+    <bindings scd="~tns:Insurance">
+      <class ref="com.bharatthippireddy.patient.Insurance"/>
+    </bindings>
+    <bindings scd="~tns:Gender">
+      <typesafeEnumClass ref="com.bharatthippireddy.patient.Gender"/>
+    </bindings>
+  </bindings>
+</bindings>
+
