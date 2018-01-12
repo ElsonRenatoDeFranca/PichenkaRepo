@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:patient xmlns:tns="http://www.bharath.com/Patient"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.bharath.com/Patient Patient.xsd ">
+	<tns:id>123</tns:id>
+	<tns:name>elson</tns:name>
+	<tns:age>29</tns:age>
+	<tns:dob>2001-01-01</tns:dob>
+	<tns:email>elson@gmail.com</tns:email>
+	<tns:gender>M</tns:gender>
+	<tns:phone>554132896689</tns:phone>
+</tns:patient>
