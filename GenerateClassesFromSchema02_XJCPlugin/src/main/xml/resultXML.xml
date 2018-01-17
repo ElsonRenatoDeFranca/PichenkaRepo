@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<patient id="123" xmlns="http://www.bharatthippireddy.com/Patient">
+	<name>Farofa</name>
+	<age>1</age>
+	<gender>F</gender>
+	<phone>+5531646711</phone>
+	<payment>
+		<insurance>
+			<provider>Golden Cross</provider>
+			<limit>1000</limit>
+		</insurance>
+		<cash>100</cash>
+	</payment>
+</patient>

@@ -1,6 +1,9 @@
 package com.demoapp.util.dto;
 
 import java.io.Serializable;
+import java.util.List;
+
+import com.demoapp.entities.Order;
 
 /**
  * 
@@ -33,6 +36,16 @@ public class CustomerDetailsDTO implements Serializable{
 	 * 
 	 */
 	private String email;
+	
+	/**
+	 * 
+	 */
+	private String telephone;
+	
+	/**
+	 * 
+	 */
+	private List<Order> orders;
 
 	/**
 	 * @return the personalId
@@ -90,6 +103,34 @@ public class CustomerDetailsDTO implements Serializable{
 		this.email = email;
 	}
 
+	/**
+	 * @return the telephone
+	 */
+	public String getTelephone() {
+		return telephone;
+	}
+
+	/**
+	 * @param telephone the telephone to set
+	 */
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
+
+	/**
+	 * @return the orders
+	 */
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	/**
+	 * @param orders the orders to set
+	 */
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -100,7 +141,9 @@ public class CustomerDetailsDTO implements Serializable{
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+		result = prime * result + ((orders == null) ? 0 : orders.hashCode());
 		result = prime * result + ((personalId == null) ? 0 : personalId.hashCode());
+		result = prime * result + ((telephone == null) ? 0 : telephone.hashCode());
 		return result;
 	}
 
@@ -131,10 +174,20 @@ public class CustomerDetailsDTO implements Serializable{
 				return false;
 		} else if (!lastName.equals(other.lastName))
 			return false;
+		if (orders == null) {
+			if (other.orders != null)
+				return false;
+		} else if (!orders.equals(other.orders))
+			return false;
 		if (personalId == null) {
 			if (other.personalId != null)
 				return false;
 		} else if (!personalId.equals(other.personalId))
+			return false;
+		if (telephone == null) {
+			if (other.telephone != null)
+				return false;
+		} else if (!telephone.equals(other.telephone))
 			return false;
 		return true;
 	}
@@ -145,8 +198,8 @@ public class CustomerDetailsDTO implements Serializable{
 	@Override
 	public String toString() {
 		return "CustomerDetailsDTO [personalId=" + personalId + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", email=" + email + "]";
+				+ ", email=" + email + ", telephone=" + telephone + ", orders=" + orders + "]";
 	}
-	
+
 	
 }
