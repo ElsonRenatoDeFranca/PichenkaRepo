@@ -4,6 +4,7 @@ package com.demoapp.entities;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -33,6 +34,9 @@ public class Customer {
 
 	@Column(name = "CUST_EMAIL")
 	private String customerEmail;
+	
+	@OneToMany
+	private List<Car> cars;
 
 	@Column(name = "CUST_PHONE")
 	private String telephoneNumber;
